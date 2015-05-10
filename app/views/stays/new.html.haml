@@ -1,0 +1,7 @@
+%h1 Capture Details of Stay
+
+= simple_form_for(@stay, html: { class: 'form-vertical' }) do |f|
+  %div
+    = f.input :entry_date
+    = f.input :exit_date
+    = f.button :submit, class: 'btn btn-default'
