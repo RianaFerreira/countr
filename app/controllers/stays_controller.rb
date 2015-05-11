@@ -11,7 +11,7 @@ class StaysController < ApplicationController
     stay = Stay.new(stay_params)
     if stay.save!
       flash[:notice] = 'Stay created.'
-      redirect_to 'index'
+      redirect_to stays_path
     else
       flash[:error] = 'Failed to create stay.'
       render 'new'

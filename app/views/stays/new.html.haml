@@ -1,9 +1,9 @@
 %h1 Capture Details of Stay
 
-= simple_form_for(@stay, html: { class: 'form-vertical' }) do |f|
+= simple_form_for @stay, input_html: { class: 'form-vertical' } do |f|
   %div
     = f.input :time_to_qualify
-    = f.input :entry_date
-    = f.input :exit_date
+    = f.input :entry_date, as: :string, input_html: { class: 'datepicker' }
+    = f.input :exit_date, as: :string, input_html: { class: 'datepicker' }
     = f.button :submit, class: 'btn btn-default'
     = link_to :cancel, root_path, class: 'btn btn-default'
