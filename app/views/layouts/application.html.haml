@@ -14,6 +14,10 @@
 
   %body
     %div.container
+      - flash.each do |name, msg|
+        %div{ :class => "alert alert-#{ (name == :notice) ? 'success' : 'error' }" }
+          %a.close{ :data => {dismiss: 'alert'} } x
+          = msg
       %h1 Citizenship Countr
       %section
         = yield
