@@ -27989,3 +27989,1263 @@ Processing by StaysController#index as HTML
 Completed 200 OK in 341ms (Views: 338.8ms | ActiveRecord: 1.2ms)
   [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
 Migrating to AddNameToUser (20150511221625)
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateUsers (20150511223928)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (22.0ms)[0m  [1mCREATE TABLE "users" ("id" serial primary key, "name" character varying, "email" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35mSQL (1.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150511223928"]]
+  [1m[36m (139.8ms)[0m  [1mCOMMIT[0m
+Migrating to CreateEntitlements (20150511224547)
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36m (12.7ms)[0m  [1mCREATE TABLE "entitlements" ("id" serial primary key, "user_id" integer, "stay_id" integer, "name" character varying, "country" character varying, "time_to_qualify" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (1.2ms)[0m  CREATE  INDEX  "index_entitlements_on_user_id" ON "entitlements"  ("user_id")
+  [1m[36m (3.1ms)[0m  [1mCREATE  INDEX  "index_entitlements_on_stay_id" ON "entitlements"  ("stay_id")[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150511224547"]]
+  [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
+Migrating to RemoveTimeToQualifyFromStays (20150511225109)
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (8.4ms)[0m  [1mALTER TABLE "stays" DROP "time_to_qualify"[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150511225109"]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.3ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (5.2ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'entitlements'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (4.5ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'stays'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (5.6ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'users'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[36mUser Load (1.5ms)[0m  [1mSELECT  "users".* FROM "users"  ORDER BY "users"."id" ASC LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (7.9ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES ($1, $2) RETURNING "id"[0m  [["created_at", "2015-05-11 23:05:39.105661"], ["updated_at", "2015-05-11 23:05:39.105661"]]
+  [1m[35m (0.6ms)[0m  COMMIT
+  [1m[36mUser Load (0.9ms)[0m  [1mSELECT  "users".* FROM "users"  ORDER BY "users"."id" DESC LIMIT 1[0m
+  [1m[35mEntitlement Load (1.1ms)[0m  SELECT  "entitlements".* FROM "entitlements"  ORDER BY "entitlements"."id" DESC LIMIT 1
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "stays" ("entry_date", "exit_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["entry_date", "2015-05-10"], ["exit_date", "2015-05-21"], ["created_at", "2015-05-11 23:07:01.045276"], ["updated_at", "2015-05-11 23:07:01.045276"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.7ms)[0m  SELECT  "users".* FROM "users"  ORDER BY "users"."id" DESC LIMIT 1
+  [1m[36mUser Load (0.7ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 1]]
+  [1m[35m (130.3ms)[0m  COMMIT
+  [1m[36m (0.8ms)[0m  [1mSELECT COUNT(*) FROM "users"[0m
+  [1m[35m (0.4ms)[0m  SELECT COUNT(*) FROM "entitlements"
+  [1m[36m (0.5ms)[0m  [1mSELECT COUNT(*) FROM "stays"[0m
+  [1m[35mStay Load (0.7ms)[0m  SELECT "stays".* FROM "stays"
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  DELETE FROM "stays" WHERE "stays"."id" = $1  [["id", 50]]
+  [1m[36m (6.7ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("name", "email", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "fuzzy"], ["email", "fuzzy@gmail.com"], ["created_at", "2015-05-11 23:16:57.173550"], ["updated_at", "2015-05-11 23:16:57.173550"]]
+  [1m[35m (6.8ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "stays" ("entry_date", "exit_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["entry_date", "2015-05-10"], ["exit_date", "2015-05-21"], ["created_at", "2015-05-11 23:17:36.831328"], ["updated_at", "2015-05-11 23:17:36.831328"]]
+  [1m[36m (7.1ms)[0m  [1mCOMMIT[0m
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "users" ("name", "email", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "fuzzy"], ["email", "fuzzy@gmail.com"], ["created_at", "2015-05-11 23:18:23.927835"], ["updated_at", "2015-05-11 23:18:23.927835"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+PG::UndefinedColumn: ERROR:  column stays.entitlement_id does not exist
+LINE 1: ...tays".* FROM "stays" INNER JOIN "entitlements" ON "stays"."e...
+                                                             ^
+: SELECT "stays".* FROM "stays" INNER JOIN "entitlements" ON "stays"."entitlement_id" = "entitlements"."id" WHERE "entitlements"."user_id" = $1
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES ($1, $2) RETURNING "id"  [["created_at", "2015-05-11 23:23:05.882051"], ["updated_at", "2015-05-11 23:23:05.882051"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES ($1, $2) RETURNING "id"  [["created_at", "2015-05-11 23:23:43.055874"], ["updated_at", "2015-05-11 23:23:43.055874"]]
+  [1m[36m (6.9ms)[0m  [1mCOMMIT[0m
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES ($1, $2) RETURNING "id"  [["created_at", "2015-05-11 23:29:13.616372"], ["updated_at", "2015-05-11 23:29:13.616372"]]
+  [1m[36m (7.3ms)[0m  [1mCOMMIT[0m
+  [1m[35mEntitlement Load (0.7ms)[0m  SELECT "entitlements".* FROM "entitlements" WHERE "entitlements"."user_id" = $1  [["user_id", 6]]
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES ($1, $2) RETURNING "id"  [["created_at", "2015-05-11 23:32:16.349376"], ["updated_at", "2015-05-11 23:32:16.349376"]]
+  [1m[36m (6.8ms)[0m  [1mCOMMIT[0m
+  [1m[35mEntitlement Load (0.7ms)[0m  SELECT "entitlements".* FROM "entitlements" WHERE "entitlements"."user_id" = $1  [["user_id", 7]]
+PG::UndefinedColumn: ERROR:  column stays.entitlement_id does not exist
+LINE 1: ...tays".* FROM "stays" INNER JOIN "entitlements" ON "stays"."e...
+                                                             ^
+: SELECT "stays".* FROM "stays" INNER JOIN "entitlements" ON "stays"."entitlement_id" = "entitlements"."id" WHERE "entitlements"."user_id" = $1
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES ($1, $2) RETURNING "id"  [["created_at", "2015-05-11 23:33:16.091742"], ["updated_at", "2015-05-11 23:33:16.091742"]]
+  [1m[36m (6.9ms)[0m  [1mCOMMIT[0m
+  [1m[35mEntitlement Load (0.7ms)[0m  SELECT "entitlements".* FROM "entitlements" WHERE "entitlements"."user_id" = $1  [["user_id", 8]]
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES ($1, $2) RETURNING "id"  [["created_at", "2015-05-11 23:40:18.034332"], ["updated_at", "2015-05-11 23:40:18.034332"]]
+  [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
+  [1m[35mEntitlement Load (0.7ms)[0m  SELECT "entitlements".* FROM "entitlements" WHERE "entitlements"."user_id" = $1  [["user_id", 9]]
+  [1m[36mStay Load (0.8ms)[0m  [1mSELECT "stays".* FROM "stays" INNER JOIN "entitlements" ON "stays"."id" = "entitlements"."stay_id" WHERE "entitlements"."user_id" = $1[0m  [["user_id", 9]]
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "stays" ("created_at", "updated_at") VALUES ($1, $2) RETURNING "id"[0m  [["created_at", "2015-05-11 23:40:34.944808"], ["updated_at", "2015-05-11 23:40:34.944808"]]
+  [1m[35m (6.8ms)[0m  COMMIT
+  [1m[36mEntitlement Load (0.4ms)[0m  [1mSELECT "entitlements".* FROM "entitlements" WHERE "entitlements"."stay_id" = $1[0m  [["stay_id", 52]]
+  [1m[35mUser Load (0.9ms)[0m  SELECT "users".* FROM "users" INNER JOIN "entitlements" ON "users"."id" = "entitlements"."user_id" WHERE "entitlements"."stay_id" = $1  [["stay_id", 52]]
+  [1m[36m (7.3ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL) [0m
+  [1m[35m (1.7ms)[0m  CREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateStays (20150510030718)
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateStays (20150510030718)
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (13.7ms)[0m  [1mCREATE TABLE "stays" ("id" serial primary key, "entitlement_id" integer, "origin" character varying, "destination" character varying, "entry_date" date, "exit_date" date, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (1.4ms)[0m  CREATE  INDEX  "index_stays_on_entitlement_id" ON "stays"  ("entitlement_id")
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20150510030718"]]
+  [1m[35m (0.9ms)[0m  COMMIT
+Migrating to CreateUsers (20150511223928)
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.6ms)[0m  CREATE TABLE "users" ("id" serial primary key, "first_name" character varying, "surname" character varying, "email" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20150511223928"]]
+  [1m[35m (2.1ms)[0m  COMMIT
+Migrating to CreateEntitlements (20150511224547)
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35m (6.6ms)[0m  CREATE TABLE "entitlements" ("id" serial primary key, "user_id" integer, "name" character varying, "description" text, "country" character varying, "time_to_qualify" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (1.3ms)[0m  [1mCREATE  INDEX  "index_entitlements_on_user_id" ON "entitlements"  ("user_id")[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150511224547"]]
+  [1m[36m (1.1ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.5ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (5.4ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'entitlements'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (5.5ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'stays'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (5.8ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'users'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES ($1, $2) RETURNING "id"  [["created_at", "2015-05-12 00:02:24.947164"], ["updated_at", "2015-05-12 00:02:24.947164"]]
+  [1m[36m (5.4ms)[0m  [1mCOMMIT[0m
+  [1m[35mEntitlement Load (0.7ms)[0m  SELECT "entitlements".* FROM "entitlements" WHERE "entitlements"."user_id" = $1  [["user_id", 1]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("first_name", "surname", "email", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["first_name", "Johan"], ["surname", "Zietsman"], ["email", "johan.zietsman@gmail.com"], ["created_at", "2015-05-12 02:51:30.023400"], ["updated_at", "2015-05-12 02:51:30.023400"]]
+  [1m[35m (124.4ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("first_name", "surname", "email", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["first_name", "Riana"], ["surname", "Ferreira"], ["email", "rianaferreira@gmail.com"], ["created_at", "2015-05-12 02:51:30.155655"], ["updated_at", "2015-05-12 02:51:30.155655"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (6.5ms)[0m  [1mINSERT INTO "entitlements" ("name", "country", "time_to_qualify", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "Citizenship"], ["country", "Australia"], ["time_to_qualify", 4], ["user_id", 2], ["created_at", "2015-05-12 02:51:30.180700"], ["updated_at", "2015-05-12 02:51:30.180700"]]
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "entitlements" ("name", "country", "time_to_qualify", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["name", "Citizenship"], ["country", "Australia"], ["time_to_qualify", 4], ["user_id", 3], ["created_at", "2015-05-12 02:51:30.192291"], ["updated_at", "2015-05-12 02:51:30.192291"]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (5.1ms)[0m  [1mINSERT INTO "stays" ("entry_date", "exit_date", "entitlement_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["entry_date", "2011-03-30"], ["exit_date", "2012-09-09"], ["entitlement_id", 2], ["created_at", "2015-05-12 02:51:30.210860"], ["updated_at", "2015-05-12 02:51:30.210860"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "stays" ("entry_date", "exit_date", "entitlement_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["entry_date", "2012-09-22"], ["exit_date", "2012-10-05"], ["entitlement_id", 2], ["created_at", "2015-05-12 02:51:30.219797"], ["updated_at", "2015-05-12 02:51:30.219797"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "stays" ("entry_date", "exit_date", "entitlement_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["entry_date", "2012-11-02"], ["exit_date", "2012-11-18"], ["entitlement_id", 2], ["created_at", "2015-05-12 02:51:30.223558"], ["updated_at", "2015-05-12 02:51:30.223558"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "stays" ("entry_date", "exit_date", "entitlement_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["entry_date", "2012-11-24"], ["exit_date", "2013-02-04"], ["entitlement_id", 2], ["created_at", "2015-05-12 02:51:30.227455"], ["updated_at", "2015-05-12 02:51:30.227455"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "stays" ("entry_date", "exit_date", "entitlement_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["entry_date", "2013-03-08"], ["exit_date", "2014-01-24"], ["entitlement_id", 2], ["created_at", "2015-05-12 02:51:30.230750"], ["updated_at", "2015-05-12 02:51:30.230750"]]
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "stays" ("entry_date", "entitlement_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["entry_date", "2014-01-27"], ["entitlement_id", 2], ["created_at", "2015-05-12 02:51:30.234662"], ["updated_at", "2015-05-12 02:51:30.234662"]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "stays" ("entry_date", "exit_date", "entitlement_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["entry_date", "2010-05-30"], ["exit_date", "2010-06-19"], ["entitlement_id", 1], ["created_at", "2015-05-12 02:51:30.238598"], ["updated_at", "2015-05-12 02:51:30.238598"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "stays" ("entry_date", "exit_date", "entitlement_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["entry_date", "2011-03-30"], ["exit_date", "2011-09-16"], ["entitlement_id", 1], ["created_at", "2015-05-12 02:51:30.242583"], ["updated_at", "2015-05-12 02:51:30.242583"]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "stays" ("entry_date", "exit_date", "entitlement_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["entry_date", "2011-09-18"], ["exit_date", "2012-10-05"], ["entitlement_id", 1], ["created_at", "2015-05-12 02:51:30.245734"], ["updated_at", "2015-05-12 02:51:30.245734"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "stays" ("entry_date", "exit_date", "entitlement_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["entry_date", "2012-11-02"], ["exit_date", "2014-01-24"], ["entitlement_id", 1], ["created_at", "2015-05-12 02:51:30.249220"], ["updated_at", "2015-05-12 02:51:30.249220"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "stays" ("entry_date", "exit_date", "entitlement_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["entry_date", "2014-01-27"], ["exit_date", "2014-07-18"], ["entitlement_id", 1], ["created_at", "2015-05-12 02:51:30.252444"], ["updated_at", "2015-05-12 02:51:30.252444"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "stays" ("entry_date", "exit_date", "entitlement_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["entry_date", "2014-08-11"], ["exit_date", "2014-09-19"], ["entitlement_id", 1], ["created_at", "2015-05-12 02:51:30.255977"], ["updated_at", "2015-05-12 02:51:30.255977"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "stays" ("entry_date", "entitlement_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["entry_date", "2014-09-28"], ["entitlement_id", 1], ["created_at", "2015-05-12 02:51:30.260020"], ["updated_at", "2015-05-12 02:51:30.260020"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36mUser Load (1.0ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mUser Load (0.4ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."first_name" = $1 LIMIT 1  [["first_name", "Riana"]]
+  [1m[36mEntitlement Load (0.7ms)[0m  [1mSELECT "entitlements".* FROM "entitlements" WHERE "entitlements"."user_id" = $1[0m  [["user_id", 3]]
+  [1m[35mStay Load (0.7ms)[0m  SELECT "stays".* FROM "stays" WHERE "stays"."entitlement_id" = $1  [["entitlement_id", 2]]
+
+
+Started GET "/" for ::1 at 2015-05-12 12:55:31 +1000
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by CountdownController#index as HTML
+  Rendered countdown/index.html.haml within layouts/application (4.0ms)
+Completed 200 OK in 2834ms (Views: 2824.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/jquery.ui.core.self-b64b49a46fb681b81ee0a63c0c6c481b8cdcf651eceae9abfc111f2819401d70.css?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/countdown.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/stay.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/jquery.ui.datepicker.self-0f5613d58b1a890ba7cf8c66421066845ac4b7b56b97b4caafb5c9770b54f996.css?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/jquery.ui.theme.self-d50cdd60996033c441d5e7c089850a7316ee5b9c58eed1ed2a84025cd1b9164d.css?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/jquery.self-d03a5518f45df77341bdbe6201ba3bfa547ebba8ed64f0ea56bfa5f96ea7c074.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/bootstrap_and_overrides.self-3925a96e29ebacce767f7e280962585dfb9c0a952852429edaadd409dde05734.css?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/application.self-d885a0a66bd595c10edb24f8879f94e334d88be0730c4d7c7a7b57c731c09037.css?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/stay.self-5a10450dfb0dea0d577fc3ab132e3df29ba55be3abbe9e88acd6bbac91c16e30.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/jquery_ujs.self-8e98a7a072a6cee1372d19fff9ff3e6aa1e39a37d89d6f06861637d061113ee7.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/jquery.ui.datepicker.self-02a4cdfbe7753462c9d7a7bf3679a246fc492f8d13b29d72bf240d6a49763f7e.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/twitter/bootstrap/transition.self-db278e3a8fa6249c16796b113ebd29e11ef4e2cd021618ed84895d524a4511e0.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/twitter/bootstrap/modal.self-ab1767545e27c0dbd36971e656ae4927171f673e3d932cdec2cbef39e991952b.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/twitter/bootstrap/scrollspy.self-bd0c6724cdc75302fe98dfeff923112b76c1673cf4a0752a7050b7feea15594c.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/twitter/bootstrap/dropdown.self-8bb9309b6c24a4ba6b94026a049d25b13bdc0553b6fe83255c14a715ba624cc4.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/twitter/bootstrap/alert.self-ebce91ec66c71bcee451ea7da9128fd1bf8faa02c6d22ea04c598423431e4c08.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/jquery.ui.core.self-968fb543604e03165e74ea02f67236875ccbdb58e7aa0be06ee1e432961bd9e2.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/twitter/bootstrap/tooltip.self-d7f9330825307d053f68da11bb9ddc9b070df72deef3d115f2f3d55f66b17457.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/twitter/bootstrap/tab.self-7e3ee4a243bb416b5f0111a0be08f8547c5d72ba71fe4afe4a4a007f5cb4e10e.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/twitter/bootstrap/button.self-ceb562de883e04359bb2c06f07bdf6ecf065cc8a5027e2e58857c5e91b0b68e3.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/twitter/bootstrap/collapse.self-a87553101c955a01e2e8c81fad69a16582ddbf58fe95d5eb335dde5567af7647.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/twitter/bootstrap/popover.self-cd672ecad3b549e1dbd89bfd044e5812d6fdade56f42d48e3acee0c3f4614526.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/twitter/bootstrap.self-fbfa5ad7d9aa0afe439ec4ff3883acc4cb92b62cb67c40d674320c9aa1d4642d.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/twitter/bootstrap/carousel.self-5d09995e01b647168888180d40e271f9a6759d68ae7ac029d7026af58813d376.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/twitter/bootstrap/affix.self-14e04bbe71282aa039322ab93e3a3a886ddede5f59a2f365f7c861f697bbeb21.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/application.self-b870f4765c2fcbf8cabec8478e3e32aa02ac855d9f609c451d170b187ee785a3.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/countdown.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/assets/bootstrap.self-fdc98dee79ee88255e10cac6caa91338165cb76cf0d263744d8d90011fc2ef8f.js?body=1" for ::1 at 2015-05-12 12:55:34 +1000
+
+
+Started GET "/" for ::1 at 2015-05-12 12:58:18 +1000
+Processing by CountdownController#index as HTML
+  Rendered countdown/index.html.haml within layouts/application (6.7ms)
+Completed 500 Internal Server Error in 19ms
+
+ActionView::Template::Error (Illegal nesting: content can't be both given on the same line as %div and nested within it.):
+    1: %h1 Countdown#index
+    2: 
+    3: %div.countr Countdown for 
+    4:   = 
+    5: = link_to('New Stay', new_stay_path, class: 'btn btn-default')
+    6: %ul
+    7:   %li M
+  app/views/countdown/index.html.haml:4
+
+
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_source.erb (9.6ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (5.0ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.2ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (78.6ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/console.js.erb within layouts/javascript (65.0ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.6ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/index.html.erb (142.0ms)
+
+
+Started GET "/" for ::1 at 2015-05-12 12:58:37 +1000
+Processing by CountdownController#index as HTML
+  Rendered countdown/index.html.haml within layouts/application (1.8ms)
+Completed 500 Internal Server Error in 7ms
+
+ActionView::Template::Error (There's no Ruby code for = to evaluate.):
+    1: %h1 Countdown#index
+    2: 
+    3: %div.countr Countdown for 
+    4: = 
+    5: = link_to('New Stay', new_stay_path, class: 'btn btn-default')
+    6: %ul
+    7:   %li M
+  app/views/countdown/index.html.haml:4
+
+
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_source.erb (9.9ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.8ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (73.1ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/console.js.erb within layouts/javascript (54.8ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.5ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/index.html.erb (120.2ms)
+
+
+Started GET "/" for ::1 at 2015-05-12 13:02:53 +1000
+Processing by CountdownController#index as HTML
+  Rendered countdown/index.html.haml within layouts/application (2.0ms)
+Completed 500 Internal Server Error in 8ms
+
+SyntaxError (/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:5: syntax error, unexpected tLABEL, expecting '='
+...false_true_false(( f.input, as: :select
+...                               ^):
+  app/views/countdown/index.html.haml:5: syntax error, unexpected tLABEL, expecting '='
+
+
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_source.erb (8.2ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.5ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (72.2ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_markup.html.erb (0.7ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/console.js.erb within layouts/javascript (54.5ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/index.html.erb (122.0ms)
+
+
+Started GET "/" for ::1 at 2015-05-12 13:04:26 +1000
+Processing by CountdownController#index as HTML
+  Rendered countdown/index.html.haml within layouts/application (2.3ms)
+Completed 500 Internal Server Error in 8ms
+
+SyntaxError (/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:5: syntax error, unexpected tLABEL, expecting '='
+...ue_false(( f.input, collection: @users
+...                               ^):
+  app/views/countdown/index.html.haml:5: syntax error, unexpected tLABEL, expecting '='
+
+
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_source.erb (8.7ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.8ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.5ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (68.8ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/console.js.erb within layouts/javascript (56.1ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/index.html.erb (122.0ms)
+
+
+Started GET "/" for ::1 at 2015-05-12 13:04:47 +1000
+Processing by CountdownController#index as HTML
+  [1m[35mUser Load (0.8ms)[0m  SELECT "users".* FROM "users"
+  Rendered countdown/index.html.haml within layouts/application (56.7ms)
+Completed 500 Internal Server Error in 63ms
+
+ActionView::Template::Error (undefined method `to_key' for #<User::ActiveRecord_Relation:0x007fe46a50cf48>):
+    1: %h1 Countdown#index
+    2: 
+    3: %div.countr Countdown for 
+    4: - simple_form_for @users do |f|
+    5:   = f.input collection: @users
+    6:   = link_to('New Stay', new_stay_path, class: 'btn btn-default')
+    7: %ul
+  app/views/countdown/index.html.haml:4:in `_app_views_countdown_index_html_haml__4383476946784166645_70309506497280'
+
+
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_source.erb (8.1ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.2ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.2ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (70.7ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/console.js.erb within layouts/javascript (54.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.5ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/index.html.erb (124.5ms)
+
+
+Started GET "/" for ::1 at 2015-05-12 13:05:06 +1000
+Processing by CountdownController#index as HTML
+  [1m[36mUser Load (0.6ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  Rendered countdown/index.html.haml within layouts/application (6.1ms)
+Completed 500 Internal Server Error in 11ms
+
+ActionView::Template::Error (undefined method `to_key' for #<User::ActiveRecord_Relation:0x007fe47364a9b0>):
+    1: %h1 Countdown#index
+    2: 
+    3: %div.countr Countdown for 
+    4: - simple_form_for @users do |f|
+    5:   = f.input collection: @users
+    6: = link_to('New Stay', new_stay_path, class: 'btn btn-default')
+    7: %ul
+  app/views/countdown/index.html.haml:4:in `_app_views_countdown_index_html_haml__4383476946784166645_70309582620720'
+
+
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_source.erb (11.3ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (4.8ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (73.8ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/console.js.erb within layouts/javascript (56.3ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/index.html.erb (119.3ms)
+
+
+Started GET "/" for ::1 at 2015-05-12 13:06:53 +1000
+Processing by CountdownController#index as HTML
+  [1m[35mUser Load (0.5ms)[0m  SELECT "users".* FROM "users"
+  Rendered countdown/index.html.haml within layouts/application (5.9ms)
+Completed 500 Internal Server Error in 11ms
+
+ActionView::Template::Error (undefined method `to_key' for #<User::ActiveRecord_Relation:0x007fe46a61b0b0>):
+    1: %h1 Countdown#index
+    2: 
+    3: %div.countr Countdown for 
+    4: = simple_form_for @users do |f|
+    5:   = f.input :user_id, collection: @users
+    6: = link_to('New Stay', new_stay_path, class: 'btn btn-default')
+    7: %ul
+  app/views/countdown/index.html.haml:4:in `_app_views_countdown_index_html_haml__4383476946784166645_70309507025800'
+
+
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_source.erb (8.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.9ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (70.6ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/console.js.erb within layouts/javascript (54.3ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/index.html.erb (119.2ms)
+
+
+Started GET "/" for ::1 at 2015-05-12 13:09:05 +1000
+Processing by CountdownController#index as HTML
+  Rendered countdown/index.html.haml within layouts/application (1.5ms)
+Completed 500 Internal Server Error in 7ms
+
+ActionView::Template::Error (Illegal nesting: content can't be both given on the same line as %div and nested within it.):
+    1: %h1 Countdown#index
+    2: 
+    3: %div.countr Countdown for 
+    4:   = select_tag(:user_id, collection: @users)
+    5:   = link_to('New Stay', new_stay_path, class: 'btn btn-default')
+    6: %ul
+    7:   %li M
+  app/views/countdown/index.html.haml:4
+
+
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_source.erb (9.6ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (72.9ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/console.js.erb within layouts/javascript (56.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.5ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/index.html.erb (128.5ms)
+
+
+Started GET "/" for ::1 at 2015-05-12 13:09:15 +1000
+Processing by CountdownController#index as HTML
+  [1m[36mUser Load (0.5ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  Rendered countdown/index.html.haml within layouts/application (4.0ms)
+Completed 200 OK in 247ms (Views: 245.9ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/assets/jquery.ui.core.self-b64b49a46fb681b81ee0a63c0c6c481b8cdcf651eceae9abfc111f2819401d70.css?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/stay.self-5a10450dfb0dea0d577fc3ab132e3df29ba55be3abbe9e88acd6bbac91c16e30.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/bootstrap_and_overrides.self-3925a96e29ebacce767f7e280962585dfb9c0a952852429edaadd409dde05734.css?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/jquery.ui.theme.self-d50cdd60996033c441d5e7c089850a7316ee5b9c58eed1ed2a84025cd1b9164d.css?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/countdown.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/jquery.ui.datepicker.self-0f5613d58b1a890ba7cf8c66421066845ac4b7b56b97b4caafb5c9770b54f996.css?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/stay.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/application.self-d885a0a66bd595c10edb24f8879f94e334d88be0730c4d7c7a7b57c731c09037.css?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/jquery.self-d03a5518f45df77341bdbe6201ba3bfa547ebba8ed64f0ea56bfa5f96ea7c074.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/jquery_ujs.self-8e98a7a072a6cee1372d19fff9ff3e6aa1e39a37d89d6f06861637d061113ee7.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/jquery.ui.core.self-968fb543604e03165e74ea02f67236875ccbdb58e7aa0be06ee1e432961bd9e2.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/jquery.ui.datepicker.self-02a4cdfbe7753462c9d7a7bf3679a246fc492f8d13b29d72bf240d6a49763f7e.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/transition.self-db278e3a8fa6249c16796b113ebd29e11ef4e2cd021618ed84895d524a4511e0.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/alert.self-ebce91ec66c71bcee451ea7da9128fd1bf8faa02c6d22ea04c598423431e4c08.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/modal.self-ab1767545e27c0dbd36971e656ae4927171f673e3d932cdec2cbef39e991952b.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/dropdown.self-8bb9309b6c24a4ba6b94026a049d25b13bdc0553b6fe83255c14a715ba624cc4.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/scrollspy.self-bd0c6724cdc75302fe98dfeff923112b76c1673cf4a0752a7050b7feea15594c.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/tab.self-7e3ee4a243bb416b5f0111a0be08f8547c5d72ba71fe4afe4a4a007f5cb4e10e.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/tooltip.self-d7f9330825307d053f68da11bb9ddc9b070df72deef3d115f2f3d55f66b17457.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/popover.self-cd672ecad3b549e1dbd89bfd044e5812d6fdade56f42d48e3acee0c3f4614526.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/button.self-ceb562de883e04359bb2c06f07bdf6ecf065cc8a5027e2e58857c5e91b0b68e3.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/collapse.self-a87553101c955a01e2e8c81fad69a16582ddbf58fe95d5eb335dde5567af7647.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/carousel.self-5d09995e01b647168888180d40e271f9a6759d68ae7ac029d7026af58813d376.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/affix.self-14e04bbe71282aa039322ab93e3a3a886ddede5f59a2f365f7c861f697bbeb21.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap.self-fbfa5ad7d9aa0afe439ec4ff3883acc4cb92b62cb67c40d674320c9aa1d4642d.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/bootstrap.self-fdc98dee79ee88255e10cac6caa91338165cb76cf0d263744d8d90011fc2ef8f.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/countdown.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/assets/application.self-b870f4765c2fcbf8cabec8478e3e32aa02ac855d9f609c451d170b187ee785a3.js?body=1" for ::1 at 2015-05-12 13:09:15 +1000
+
+
+Started GET "/" for ::1 at 2015-05-12 13:09:51 +1000
+Processing by CountdownController#index as HTML
+  [1m[35mUser Load (0.5ms)[0m  SELECT "users".* FROM "users"
+  Rendered countdown/index.html.haml within layouts/application (3.6ms)
+Completed 200 OK in 239ms (Views: 238.1ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/assets/stay.self-5a10450dfb0dea0d577fc3ab132e3df29ba55be3abbe9e88acd6bbac91c16e30.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/jquery.ui.datepicker.self-0f5613d58b1a890ba7cf8c66421066845ac4b7b56b97b4caafb5c9770b54f996.css?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/jquery.ui.theme.self-d50cdd60996033c441d5e7c089850a7316ee5b9c58eed1ed2a84025cd1b9164d.css?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/jquery.ui.core.self-b64b49a46fb681b81ee0a63c0c6c481b8cdcf651eceae9abfc111f2819401d70.css?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/countdown.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/bootstrap_and_overrides.self-3925a96e29ebacce767f7e280962585dfb9c0a952852429edaadd409dde05734.css?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/stay.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/application.self-d885a0a66bd595c10edb24f8879f94e334d88be0730c4d7c7a7b57c731c09037.css?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/jquery.self-d03a5518f45df77341bdbe6201ba3bfa547ebba8ed64f0ea56bfa5f96ea7c074.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/jquery_ujs.self-8e98a7a072a6cee1372d19fff9ff3e6aa1e39a37d89d6f06861637d061113ee7.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/jquery.ui.core.self-968fb543604e03165e74ea02f67236875ccbdb58e7aa0be06ee1e432961bd9e2.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/jquery.ui.datepicker.self-02a4cdfbe7753462c9d7a7bf3679a246fc492f8d13b29d72bf240d6a49763f7e.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/twitter/bootstrap/transition.self-db278e3a8fa6249c16796b113ebd29e11ef4e2cd021618ed84895d524a4511e0.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/twitter/bootstrap/alert.self-ebce91ec66c71bcee451ea7da9128fd1bf8faa02c6d22ea04c598423431e4c08.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/twitter/bootstrap/modal.self-ab1767545e27c0dbd36971e656ae4927171f673e3d932cdec2cbef39e991952b.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/twitter/bootstrap/dropdown.self-8bb9309b6c24a4ba6b94026a049d25b13bdc0553b6fe83255c14a715ba624cc4.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/twitter/bootstrap/scrollspy.self-bd0c6724cdc75302fe98dfeff923112b76c1673cf4a0752a7050b7feea15594c.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/twitter/bootstrap/tab.self-7e3ee4a243bb416b5f0111a0be08f8547c5d72ba71fe4afe4a4a007f5cb4e10e.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/twitter/bootstrap/tooltip.self-d7f9330825307d053f68da11bb9ddc9b070df72deef3d115f2f3d55f66b17457.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/twitter/bootstrap/popover.self-cd672ecad3b549e1dbd89bfd044e5812d6fdade56f42d48e3acee0c3f4614526.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/twitter/bootstrap/button.self-ceb562de883e04359bb2c06f07bdf6ecf065cc8a5027e2e58857c5e91b0b68e3.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/twitter/bootstrap/collapse.self-a87553101c955a01e2e8c81fad69a16582ddbf58fe95d5eb335dde5567af7647.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/twitter/bootstrap/carousel.self-5d09995e01b647168888180d40e271f9a6759d68ae7ac029d7026af58813d376.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/twitter/bootstrap/affix.self-14e04bbe71282aa039322ab93e3a3a886ddede5f59a2f365f7c861f697bbeb21.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/twitter/bootstrap.self-fbfa5ad7d9aa0afe439ec4ff3883acc4cb92b62cb67c40d674320c9aa1d4642d.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/bootstrap.self-fdc98dee79ee88255e10cac6caa91338165cb76cf0d263744d8d90011fc2ef8f.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/countdown.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/assets/application.self-b870f4765c2fcbf8cabec8478e3e32aa02ac855d9f609c451d170b187ee785a3.js?body=1" for ::1 at 2015-05-12 13:09:51 +1000
+
+
+Started GET "/" for ::1 at 2015-05-12 13:10:27 +1000
+Processing by CountdownController#index as HTML
+  [1m[36mUser Load (0.5ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  Rendered countdown/index.html.haml within layouts/application (3.6ms)
+Completed 200 OK in 243ms (Views: 241.9ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/assets/stay.self-5a10450dfb0dea0d577fc3ab132e3df29ba55be3abbe9e88acd6bbac91c16e30.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/jquery.ui.core.self-b64b49a46fb681b81ee0a63c0c6c481b8cdcf651eceae9abfc111f2819401d70.css?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/jquery.ui.datepicker.self-0f5613d58b1a890ba7cf8c66421066845ac4b7b56b97b4caafb5c9770b54f996.css?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/jquery.ui.theme.self-d50cdd60996033c441d5e7c089850a7316ee5b9c58eed1ed2a84025cd1b9164d.css?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/countdown.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/bootstrap_and_overrides.self-3925a96e29ebacce767f7e280962585dfb9c0a952852429edaadd409dde05734.css?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/stay.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/application.self-d885a0a66bd595c10edb24f8879f94e334d88be0730c4d7c7a7b57c731c09037.css?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/jquery.self-d03a5518f45df77341bdbe6201ba3bfa547ebba8ed64f0ea56bfa5f96ea7c074.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/jquery_ujs.self-8e98a7a072a6cee1372d19fff9ff3e6aa1e39a37d89d6f06861637d061113ee7.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/jquery.ui.core.self-968fb543604e03165e74ea02f67236875ccbdb58e7aa0be06ee1e432961bd9e2.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/jquery.ui.datepicker.self-02a4cdfbe7753462c9d7a7bf3679a246fc492f8d13b29d72bf240d6a49763f7e.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/twitter/bootstrap/transition.self-db278e3a8fa6249c16796b113ebd29e11ef4e2cd021618ed84895d524a4511e0.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/twitter/bootstrap/alert.self-ebce91ec66c71bcee451ea7da9128fd1bf8faa02c6d22ea04c598423431e4c08.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/twitter/bootstrap/modal.self-ab1767545e27c0dbd36971e656ae4927171f673e3d932cdec2cbef39e991952b.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/twitter/bootstrap/dropdown.self-8bb9309b6c24a4ba6b94026a049d25b13bdc0553b6fe83255c14a715ba624cc4.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/twitter/bootstrap/scrollspy.self-bd0c6724cdc75302fe98dfeff923112b76c1673cf4a0752a7050b7feea15594c.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/twitter/bootstrap/tab.self-7e3ee4a243bb416b5f0111a0be08f8547c5d72ba71fe4afe4a4a007f5cb4e10e.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/twitter/bootstrap/tooltip.self-d7f9330825307d053f68da11bb9ddc9b070df72deef3d115f2f3d55f66b17457.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/twitter/bootstrap/popover.self-cd672ecad3b549e1dbd89bfd044e5812d6fdade56f42d48e3acee0c3f4614526.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/twitter/bootstrap/button.self-ceb562de883e04359bb2c06f07bdf6ecf065cc8a5027e2e58857c5e91b0b68e3.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/twitter/bootstrap/collapse.self-a87553101c955a01e2e8c81fad69a16582ddbf58fe95d5eb335dde5567af7647.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/twitter/bootstrap/carousel.self-5d09995e01b647168888180d40e271f9a6759d68ae7ac029d7026af58813d376.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/twitter/bootstrap/affix.self-14e04bbe71282aa039322ab93e3a3a886ddede5f59a2f365f7c861f697bbeb21.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/twitter/bootstrap.self-fbfa5ad7d9aa0afe439ec4ff3883acc4cb92b62cb67c40d674320c9aa1d4642d.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/bootstrap.self-fdc98dee79ee88255e10cac6caa91338165cb76cf0d263744d8d90011fc2ef8f.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/countdown.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/assets/application.self-b870f4765c2fcbf8cabec8478e3e32aa02ac855d9f609c451d170b187ee785a3.js?body=1" for ::1 at 2015-05-12 13:10:28 +1000
+
+
+Started GET "/" for ::1 at 2015-05-12 13:10:47 +1000
+Processing by CountdownController#index as HTML
+  Rendered countdown/index.html.haml within layouts/application (2.8ms)
+Completed 500 Internal Server Error in 8ms
+
+SyntaxError (/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:6: syntax error, unexpected ';', expecting ')'
+));}\n</div>\n#{_hamlout.adjust_...
+   ^
+/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:7: unknown regexp option - l
+/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:7: syntax error, unexpected $undefined
+));}\n<ul>\n  <li>M</li>\n  <li>W</li>\n  <li>D</li>\n...
+                         ^
+/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:7: unknown regexp option - l
+/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:7: syntax error, unexpected $undefined
+...i>\n  <li>W</li>\n  <li>D</li>\n</ul>\n<p>display countdown ...
+...                               ^
+/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:7: unknown regexp option - p
+/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:7: syntax error, unexpected $undefined
+...play countdown detail here</p>\n", 0, false);::Haml::Util.ht...
+...                               ^
+/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:7: unterminated string meets end of file
+/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:7: syntax error, unexpected end-of-input, expecting tSTRING_DEND):
+  app/views/countdown/index.html.haml:6: syntax error, unexpected ';', expecting ')'
+  app/views/countdown/index.html.haml:7: unknown regexp option - l
+  app/views/countdown/index.html.haml:7: syntax error, unexpected $undefined
+  app/views/countdown/index.html.haml:7: unknown regexp option - l
+  app/views/countdown/index.html.haml:7: syntax error, unexpected $undefined
+  app/views/countdown/index.html.haml:7: unknown regexp option - p
+  app/views/countdown/index.html.haml:7: syntax error, unexpected $undefined
+  app/views/countdown/index.html.haml:7: unterminated string meets end of file
+  app/views/countdown/index.html.haml:7: syntax error, unexpected end-of-input, expecting tSTRING_DEND
+
+
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_source.erb (18.1ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (4.0ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (81.9ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/console.js.erb within layouts/javascript (57.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/main.js.erb within layouts/javascript (0.5ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.6ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/index.html.erb (125.1ms)
+
+
+Started GET "/" for ::1 at 2015-05-12 13:11:02 +1000
+Processing by CountdownController#index as HTML
+  Rendered countdown/index.html.haml within layouts/application (2.2ms)
+Completed 500 Internal Server Error in 7ms
+
+SyntaxError (/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:6: syntax error, unexpected ';', expecting ')'
+));}\n</div>\n#{_hamlout.adjust_...
+   ^
+/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:7: unknown regexp option - l
+/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:7: syntax error, unexpected $undefined
+));}\n<ul>\n  <li>M</li>\n  <li>W</li>\n  <li>D</li>\n...
+                         ^
+/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:7: unknown regexp option - l
+/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:7: syntax error, unexpected $undefined
+...i>\n  <li>W</li>\n  <li>D</li>\n</ul>\n<p>display countdown ...
+...                               ^
+/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:7: unknown regexp option - p
+/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:7: syntax error, unexpected $undefined
+...play countdown detail here</p>\n", 0, false);::Haml::Util.ht...
+...                               ^
+/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:7: unterminated string meets end of file
+/Users/fuzzyri/git/countr/app/views/countdown/index.html.haml:7: syntax error, unexpected end-of-input, expecting tSTRING_DEND):
+  app/views/countdown/index.html.haml:6: syntax error, unexpected ';', expecting ')'
+  app/views/countdown/index.html.haml:7: unknown regexp option - l
+  app/views/countdown/index.html.haml:7: syntax error, unexpected $undefined
+  app/views/countdown/index.html.haml:7: unknown regexp option - l
+  app/views/countdown/index.html.haml:7: syntax error, unexpected $undefined
+  app/views/countdown/index.html.haml:7: unknown regexp option - p
+  app/views/countdown/index.html.haml:7: syntax error, unexpected $undefined
+  app/views/countdown/index.html.haml:7: unterminated string meets end of file
+  app/views/countdown/index.html.haml:7: syntax error, unexpected end-of-input, expecting tSTRING_DEND
+
+
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_source.erb (8.7ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.8ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (67.7ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_markup.html.erb (0.6ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/console.js.erb within layouts/javascript (54.6ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.5ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/index.html.erb (124.8ms)
+
+
+Started GET "/" for ::1 at 2015-05-12 13:13:05 +1000
+Processing by CountdownController#index as HTML
+  [1m[35mUser Load (0.5ms)[0m  SELECT "users".* FROM "users"
+  Rendered countdown/index.html.haml within layouts/application (18.5ms)
+Completed 500 Internal Server Error in 26ms
+
+ActionView::Template::Error (undefined method `name' for #<User:0x007fe47211e190>):
+    2: 
+    3: %div.countr 
+    4:   Countdown for 
+    5:   = options_from_collection_for_select(User.all, :id, :name)
+    6: = link_to('New Stay', new_stay_path, class: 'btn btn-default')
+    7: %ul
+    8:   %li M
+  app/views/countdown/index.html.haml:5:in `_app_views_countdown_index_html_haml__4383476946784166645_70309579548800'
+
+
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_source.erb (9.3ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.3ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.2ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (75.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/console.js.erb within layouts/javascript (55.0ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/fuzzyri/.rvm/gems/ruby-2.2.0@countr/gems/web-console-2.1.2/lib/web_console/templates/index.html.erb (121.0ms)
+
+
+Started GET "/" for ::1 at 2015-05-12 13:13:15 +1000
+Processing by CountdownController#index as HTML
+  [1m[36mUser Load (0.5ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  Rendered countdown/index.html.haml within layouts/application (3.3ms)
+Completed 200 OK in 237ms (Views: 235.5ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/assets/stay.self-5a10450dfb0dea0d577fc3ab132e3df29ba55be3abbe9e88acd6bbac91c16e30.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/jquery.ui.core.self-b64b49a46fb681b81ee0a63c0c6c481b8cdcf651eceae9abfc111f2819401d70.css?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/countdown.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/jquery.ui.theme.self-d50cdd60996033c441d5e7c089850a7316ee5b9c58eed1ed2a84025cd1b9164d.css?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/jquery.ui.datepicker.self-0f5613d58b1a890ba7cf8c66421066845ac4b7b56b97b4caafb5c9770b54f996.css?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/bootstrap_and_overrides.self-3925a96e29ebacce767f7e280962585dfb9c0a952852429edaadd409dde05734.css?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/stay.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/application.self-d885a0a66bd595c10edb24f8879f94e334d88be0730c4d7c7a7b57c731c09037.css?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/jquery.self-d03a5518f45df77341bdbe6201ba3bfa547ebba8ed64f0ea56bfa5f96ea7c074.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/jquery_ujs.self-8e98a7a072a6cee1372d19fff9ff3e6aa1e39a37d89d6f06861637d061113ee7.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/jquery.ui.core.self-968fb543604e03165e74ea02f67236875ccbdb58e7aa0be06ee1e432961bd9e2.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/jquery.ui.datepicker.self-02a4cdfbe7753462c9d7a7bf3679a246fc492f8d13b29d72bf240d6a49763f7e.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/transition.self-db278e3a8fa6249c16796b113ebd29e11ef4e2cd021618ed84895d524a4511e0.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/alert.self-ebce91ec66c71bcee451ea7da9128fd1bf8faa02c6d22ea04c598423431e4c08.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/modal.self-ab1767545e27c0dbd36971e656ae4927171f673e3d932cdec2cbef39e991952b.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/dropdown.self-8bb9309b6c24a4ba6b94026a049d25b13bdc0553b6fe83255c14a715ba624cc4.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/scrollspy.self-bd0c6724cdc75302fe98dfeff923112b76c1673cf4a0752a7050b7feea15594c.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/tab.self-7e3ee4a243bb416b5f0111a0be08f8547c5d72ba71fe4afe4a4a007f5cb4e10e.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/tooltip.self-d7f9330825307d053f68da11bb9ddc9b070df72deef3d115f2f3d55f66b17457.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/popover.self-cd672ecad3b549e1dbd89bfd044e5812d6fdade56f42d48e3acee0c3f4614526.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/button.self-ceb562de883e04359bb2c06f07bdf6ecf065cc8a5027e2e58857c5e91b0b68e3.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/collapse.self-a87553101c955a01e2e8c81fad69a16582ddbf58fe95d5eb335dde5567af7647.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/carousel.self-5d09995e01b647168888180d40e271f9a6759d68ae7ac029d7026af58813d376.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap/affix.self-14e04bbe71282aa039322ab93e3a3a886ddede5f59a2f365f7c861f697bbeb21.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/twitter/bootstrap.self-fbfa5ad7d9aa0afe439ec4ff3883acc4cb92b62cb67c40d674320c9aa1d4642d.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/bootstrap.self-fdc98dee79ee88255e10cac6caa91338165cb76cf0d263744d8d90011fc2ef8f.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/countdown.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/assets/application.self-b870f4765c2fcbf8cabec8478e3e32aa02ac855d9f609c451d170b187ee785a3.js?body=1" for ::1 at 2015-05-12 13:13:15 +1000
+
+
+Started GET "/" for ::1 at 2015-05-12 13:13:47 +1000
+Processing by CountdownController#index as HTML
+  [1m[35mUser Load (0.6ms)[0m  SELECT "users".* FROM "users"
+  Rendered countdown/index.html.haml within layouts/application (4.1ms)
+Completed 200 OK in 230ms (Views: 228.6ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/assets/jquery.ui.core.self-b64b49a46fb681b81ee0a63c0c6c481b8cdcf651eceae9abfc111f2819401d70.css?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/stay.self-5a10450dfb0dea0d577fc3ab132e3df29ba55be3abbe9e88acd6bbac91c16e30.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/stay.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/jquery.ui.theme.self-d50cdd60996033c441d5e7c089850a7316ee5b9c58eed1ed2a84025cd1b9164d.css?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/jquery.ui.datepicker.self-0f5613d58b1a890ba7cf8c66421066845ac4b7b56b97b4caafb5c9770b54f996.css?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/bootstrap_and_overrides.self-3925a96e29ebacce767f7e280962585dfb9c0a952852429edaadd409dde05734.css?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/countdown.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/application.self-d885a0a66bd595c10edb24f8879f94e334d88be0730c4d7c7a7b57c731c09037.css?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/jquery.self-d03a5518f45df77341bdbe6201ba3bfa547ebba8ed64f0ea56bfa5f96ea7c074.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/jquery_ujs.self-8e98a7a072a6cee1372d19fff9ff3e6aa1e39a37d89d6f06861637d061113ee7.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/jquery.ui.core.self-968fb543604e03165e74ea02f67236875ccbdb58e7aa0be06ee1e432961bd9e2.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/jquery.ui.datepicker.self-02a4cdfbe7753462c9d7a7bf3679a246fc492f8d13b29d72bf240d6a49763f7e.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/twitter/bootstrap/transition.self-db278e3a8fa6249c16796b113ebd29e11ef4e2cd021618ed84895d524a4511e0.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/twitter/bootstrap/alert.self-ebce91ec66c71bcee451ea7da9128fd1bf8faa02c6d22ea04c598423431e4c08.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/twitter/bootstrap/modal.self-ab1767545e27c0dbd36971e656ae4927171f673e3d932cdec2cbef39e991952b.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/twitter/bootstrap/dropdown.self-8bb9309b6c24a4ba6b94026a049d25b13bdc0553b6fe83255c14a715ba624cc4.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/twitter/bootstrap/scrollspy.self-bd0c6724cdc75302fe98dfeff923112b76c1673cf4a0752a7050b7feea15594c.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/twitter/bootstrap/tab.self-7e3ee4a243bb416b5f0111a0be08f8547c5d72ba71fe4afe4a4a007f5cb4e10e.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/twitter/bootstrap/tooltip.self-d7f9330825307d053f68da11bb9ddc9b070df72deef3d115f2f3d55f66b17457.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/twitter/bootstrap/popover.self-cd672ecad3b549e1dbd89bfd044e5812d6fdade56f42d48e3acee0c3f4614526.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/twitter/bootstrap/button.self-ceb562de883e04359bb2c06f07bdf6ecf065cc8a5027e2e58857c5e91b0b68e3.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/twitter/bootstrap/collapse.self-a87553101c955a01e2e8c81fad69a16582ddbf58fe95d5eb335dde5567af7647.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/twitter/bootstrap/carousel.self-5d09995e01b647168888180d40e271f9a6759d68ae7ac029d7026af58813d376.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/twitter/bootstrap/affix.self-14e04bbe71282aa039322ab93e3a3a886ddede5f59a2f365f7c861f697bbeb21.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/twitter/bootstrap.self-fbfa5ad7d9aa0afe439ec4ff3883acc4cb92b62cb67c40d674320c9aa1d4642d.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/bootstrap.self-fdc98dee79ee88255e10cac6caa91338165cb76cf0d263744d8d90011fc2ef8f.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/countdown.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/assets/application.self-b870f4765c2fcbf8cabec8478e3e32aa02ac855d9f609c451d170b187ee785a3.js?body=1" for ::1 at 2015-05-12 13:13:47 +1000
+
+
+Started GET "/" for ::1 at 2015-05-12 13:16:06 +1000
+Processing by CountdownController#index as HTML
+  [1m[36mUser Load (0.5ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  Rendered countdown/index.html.haml within layouts/application (3.9ms)
+Completed 200 OK in 247ms (Views: 246.2ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/assets/stay.self-5a10450dfb0dea0d577fc3ab132e3df29ba55be3abbe9e88acd6bbac91c16e30.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/countdown.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/jquery.ui.core.self-b64b49a46fb681b81ee0a63c0c6c481b8cdcf651eceae9abfc111f2819401d70.css?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/jquery.ui.datepicker.self-0f5613d58b1a890ba7cf8c66421066845ac4b7b56b97b4caafb5c9770b54f996.css?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/bootstrap_and_overrides.self-3925a96e29ebacce767f7e280962585dfb9c0a952852429edaadd409dde05734.css?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/jquery.ui.theme.self-d50cdd60996033c441d5e7c089850a7316ee5b9c58eed1ed2a84025cd1b9164d.css?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/stay.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/application.self-d885a0a66bd595c10edb24f8879f94e334d88be0730c4d7c7a7b57c731c09037.css?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/jquery.self-d03a5518f45df77341bdbe6201ba3bfa547ebba8ed64f0ea56bfa5f96ea7c074.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/jquery_ujs.self-8e98a7a072a6cee1372d19fff9ff3e6aa1e39a37d89d6f06861637d061113ee7.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/jquery.ui.core.self-968fb543604e03165e74ea02f67236875ccbdb58e7aa0be06ee1e432961bd9e2.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/jquery.ui.datepicker.self-02a4cdfbe7753462c9d7a7bf3679a246fc492f8d13b29d72bf240d6a49763f7e.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/twitter/bootstrap/transition.self-db278e3a8fa6249c16796b113ebd29e11ef4e2cd021618ed84895d524a4511e0.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/twitter/bootstrap/alert.self-ebce91ec66c71bcee451ea7da9128fd1bf8faa02c6d22ea04c598423431e4c08.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/twitter/bootstrap/modal.self-ab1767545e27c0dbd36971e656ae4927171f673e3d932cdec2cbef39e991952b.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/twitter/bootstrap/dropdown.self-8bb9309b6c24a4ba6b94026a049d25b13bdc0553b6fe83255c14a715ba624cc4.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/twitter/bootstrap/scrollspy.self-bd0c6724cdc75302fe98dfeff923112b76c1673cf4a0752a7050b7feea15594c.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/twitter/bootstrap/tab.self-7e3ee4a243bb416b5f0111a0be08f8547c5d72ba71fe4afe4a4a007f5cb4e10e.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/twitter/bootstrap/tooltip.self-d7f9330825307d053f68da11bb9ddc9b070df72deef3d115f2f3d55f66b17457.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/twitter/bootstrap/popover.self-cd672ecad3b549e1dbd89bfd044e5812d6fdade56f42d48e3acee0c3f4614526.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/twitter/bootstrap/button.self-ceb562de883e04359bb2c06f07bdf6ecf065cc8a5027e2e58857c5e91b0b68e3.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/twitter/bootstrap/collapse.self-a87553101c955a01e2e8c81fad69a16582ddbf58fe95d5eb335dde5567af7647.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/twitter/bootstrap/carousel.self-5d09995e01b647168888180d40e271f9a6759d68ae7ac029d7026af58813d376.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/twitter/bootstrap/affix.self-14e04bbe71282aa039322ab93e3a3a886ddede5f59a2f365f7c861f697bbeb21.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/twitter/bootstrap.self-fbfa5ad7d9aa0afe439ec4ff3883acc4cb92b62cb67c40d674320c9aa1d4642d.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/bootstrap.self-fdc98dee79ee88255e10cac6caa91338165cb76cf0d263744d8d90011fc2ef8f.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/countdown.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
+
+
+Started GET "/assets/application.self-b870f4765c2fcbf8cabec8478e3e32aa02ac855d9f609c451d170b187ee785a3.js?body=1" for ::1 at 2015-05-12 13:16:06 +1000
