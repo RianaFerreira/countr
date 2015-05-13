@@ -44,8 +44,9 @@ class UsersController < ApplicationController
 private
 
   def user_params
-    params.require(:user).permit(:first_name, :surname, :email, 
-                                 entitlements_attributes: [:name, :description, :time_to_qualify, :country,
-                                 stays_attributes: [:origin, :destination, :entry_date, :exit_date, :_destroy]])
+    params.require(:user).
+    permit(:first_name, :surname, :email, 
+            entitlements_attributes: [:name, :description, :time_to_qualify, :country,
+                                       stays_attributes: [:origin, :destination, :entry_date, :exit_date, :_destroy]])
   end
 end

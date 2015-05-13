@@ -15,7 +15,8 @@ class EntitlementsController < ApplicationController
 private
   
   def entitlement_params
-    params.require(:entitlement).permit(:name, :description, :country, :time_to_qualify,
-                                        stays_attributes: [:origin, :destination, :entry_date, :exit_date])
+    params.require(:entitlement).
+    permit(:name, :description, :country, :time_to_qualify,
+            stays_attributes: [:origin, :destination, :entry_date, :exit_date])
   end
 end

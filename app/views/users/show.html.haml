@@ -39,6 +39,7 @@
       %th Exit Date
   %tbody
   - @stays.each do |stay|
+  -require 'byebug';byebug
     %tr
       %td= stay.origin
       %td= stay.destination

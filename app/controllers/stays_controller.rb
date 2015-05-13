@@ -22,6 +22,7 @@ class StaysController < ApplicationController
   private
 
   def stay_params
-    params.require(:stay).permit(:origin, :destination, :entry_date, :exit_date, :time_to_qualify)
+    params.require(:stay).
+    permit(:origin, :destination, :entry_date, :exit_date, :time_to_qualify)
   end
 end
