@@ -1,9 +1,10 @@
 %h1 It's the final count down!
 
 %div.countr 
-  Countdown for 
-  = select_tag(:user_id, options_from_collection_for_select(User.all, :id, :first_name), id: 'countdown_user_id')
-= link_to('New Stay', new_stay_path, class: 'btn btn-default')
+  = link_to('Setup Entitlements for User', new_user_path, class: 'btn btn-default')
+
+Countdown for 
+= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :first_name), id: 'countdown_user_id')
 %ul
   %li M
   %li W

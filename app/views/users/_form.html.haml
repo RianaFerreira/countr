@@ -1,0 +1,13 @@
+= simple_form_for @user, input_html: { class: 'form-vertical' } do |f|
+  = f.error_notification
+
+  = f.input :first_name
+  = f.input :surname
+  = f.input :email,              as: :email
+
+  = f.simple_fields_for :entitlements do |e|
+    = render 'entitlement_fields', f: e
+
+  = f.error :base
+  = f.button :submit, class: 'btn btn-default'
+  = link_to 'Cancel', users_path, class: 'btn btn-default'

@@ -1,0 +1,23 @@
+%h1 List of Users
+%table.table.table-striped
+  %thead
+    %tr
+      %th First Name
+      %th Surname
+      %th Email
+      %th
+        = link_to 'New User', new_user_path, class: 'btn btn-default'
+        = link_to 'Back to Count Down', root_path, class: 'btn btn-default'
+  %tbody      
+  - if @users.length > 0
+    - @users.each do |user|
+      %tr
+        %td
+          = link_to user.first_name, user_path(user)
+        %td= user.surname
+        %td= user.email
+        %td
+          = link_to 'Edit', edit_user_path(user), class: 'btn btn-default'
+          = link_to 'Destroy', user_path(user), method: :delete, confirm: 'Are you sure?', class: 'btn btn-mini btn-danger'
+  - else
+    %p No users currently exist.

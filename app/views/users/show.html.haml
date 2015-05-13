@@ -1,0 +1,50 @@
+%h2 
+  User Information for 
+  = @user.first_name
+%table.table.table-striped
+  %tr
+    %td First Name
+    %td= @user.first_name
+  %tr
+    %td Surname
+    %td= @user.surname      
+  %tr
+    %td Email
+    %td= @user.email
+
+%h2 Entitlement Deets
+%table.table.table-striped
+  %tr
+    %td Entitlement
+    %td= @entitlement.name
+  %tr
+    %td Description
+    %td= @entitlement.description
+  %tr
+    %td Country
+    %td= @entitlement.country
+  %tr
+    %td Time To Quailfy
+    %td
+      = @entitlement.time_to_qualify
+      years
+      
+%h2 Stays Accumulating to Entitlement
+%table.table.table-striped
+  %thead
+    %tr
+      %th Origin
+      %th Destination
+      %th Entry Date
+      %th Exit Date
+  %tbody
+  - @stays.each do |stay|
+    %tr
+      %td= stay.origin
+      %td= stay.destination
+      %td= stay.entry_date
+      %td= stay.exit_date
+
+%div
+  = link_to 'Edit', edit_user_path(@user), class: 'btn btn-default'
+  = link_to 'Back to User List', users_path, class: 'btn btn-default'
