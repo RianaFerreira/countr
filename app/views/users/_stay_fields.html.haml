@@ -1,8 +1,8 @@
 %fieldset
   %legend Stay
-  = f.input :origin,      as: :country
+  = f.input :origin, as: :country
   = f.input :destination, as: :country
-  = f.input :entry_date,  as: :string, input_html: { class: 'datepicker' }
-  = f.input :exit_date,   as: :string, input_html: { class: 'datepicker' }, required: false
-  = f.input :_destroy,    as: :hidden
+  = f.input :entry_date, as: :string, input_html: { class: 'datepicker' }, required: true
+  = f.input :exit_date, as: :string, input_html: { class: 'datepicker' }, required: false
+  = f.input :_destroy, as: :hidden
   = link_to 'remove stay', '#', class: 'remove_fields btn btn-default'

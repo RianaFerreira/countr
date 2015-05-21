@@ -1,9 +1,9 @@
 = simple_form_for @user, input_html: { class: 'form-vertical' } do |f|
   = f.error_notification
 
-  = f.input :first_name
-  = f.input :surname
-  = f.input :email,              as: :email
+  = f.input :first_name, required: true
+  = f.input :surname, required: true
+  = f.input :email, as: :email, required: true
 
   = f.simple_fields_for :entitlements do |e|
     = render 'entitlement_fields', f: e
