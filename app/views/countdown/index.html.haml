@@ -1,47 +1,37 @@
 %h1 It's the final count down!
 
 %div.countr 
-  = link_to('Setup Entitlements for User', new_user_path, class: 'btn btn-default')
+  %p
+    = link_to('Setup Entitlements for User', new_user_path, class: 'btn btn-default')
 
 %fieldset
   %legend 
-    Countdown for 
-    = select_tag(:user_id, options_from_collection_for_select(User.all, :id, :first_name, @entitlement.user.id), id: 'countdown_user_id')
-  - if qualified_for_entitlement?(@total_time_in_au)
-    %p 
-      You can apply for 
-      = @entitlement.name
-  - else
     %p
-      = months_to_entitlement(@total_time_in_au) 
-      Months
+      Countdown for 
+      = select_tag(:user_id, options_from_collection_for_select(User.all, :id, :first_name, @entitlement.user.id), id: 'select_user_id')
     %p
-      = weeks_to_entitlement(@total_time_in_au) 
-      Weeks
-    %p
-      = days_to_entitlement(@total_time_in_au)
-      Days
+      = qualified_for?(@entitlement)
 
-  %fieldset
-    %legend
-      Breakdown of Time Spent in 
-      = @entitlement.country
-    %p
-      = @entitlement.name 
-      in 
-      = @entitlement.country 
-      requires that you be present in the country for 
-      = @entitlement.time_to_qualify 
-      years
-    %p
-      = years_spent_in_country(@total_time_in_au)
-      years present
-    %p
-      = months_spent_in_country(@total_time_in_au)
-      months present
-    %p
-      = weeks_spent_in_country(@total_time_in_au)
-      weeks present
-    %p
-      = @total_time_in_au 
-      days present
+%fieldset
+  %legend
+    Breakdown of Time Spent in 
+    = @entitlement.country
+  %p
+    = @entitlement.name 
+    in 
+    = @entitlement.country 
+    requires that you be present in the country for 
+    = @entitlement.time_to_qualify 
+    years
+  %p
+    = @entitlement.years_spent_in_country
+    years present
+  %p
+    = @entitlement.months_spent_in_country
+    months present
+  %p
+    = @entitlement.weeks_spent_in_country
+    weeks present
+  %p
+    = @entitlement.method('calculate_total_time_present').call
+    days present

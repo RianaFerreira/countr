@@ -1,13 +1,15 @@
 class CountdownController < ApplicationController
   def index
-    user = User.find_by_first_name('Riana')
+    user = if params[:user_id].present?
+            User.find(params[:user_id])
+          else 
+            User.last
+          end
     @entitlement = user.entitlements.first
-    @total_time_in_au = 0
 
-    @entitlement.stays.each do |stay|
-      @total_time_in_au += ((stay.exit_date.presence || Date.today) - stay.entry_date).to_i
+    respond_to do |format|
+      format.html
+      format.json { render json: @entitlement }
     end
-
-
   end
 end
